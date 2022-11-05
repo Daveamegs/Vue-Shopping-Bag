@@ -9,9 +9,12 @@
         <div class="product-image" :style="{backgroundImage: 'url(' + product.image + ')'}"></div>
         <h4>{{ product.title }}</h4>
         <p class="price">US$ {{product.price.toFixed(2)}}</p>
-        <button>Add to bag</button>
+        <button v-if="!isInBag(product)" @click="addToBag(product)">Add to bag</button>
+        <button v-else class="remove">Remove From Bag</button>
+
       </div>
     </div>
+
   </div>
 </template>
 
@@ -26,12 +29,23 @@ export default {
   },
 
   methods: {
-   
+    addToBag(product){
+      product.quantity = 1
+      this.$store.dispatch("addToBag", product)
+    },
+
+    isInBag(product){
+      return this.productsInBag.find( item => item.id == product.id)
+    }
   },
 
   computed : {
     loadProducts(){
       return this.$store.state.products
+    },
+
+    productsInBag(){
+      return this.$store.state.productsInBag
     }
   }
 }

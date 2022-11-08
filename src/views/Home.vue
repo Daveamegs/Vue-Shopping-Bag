@@ -3,7 +3,7 @@
     <div class="products">
 
       <div
-        v-for="(product, index) in this.loadProducts" :key="index"
+        v-for="(product, index) in this.products" :key="index"
         class="product"
         :class="{inBag : isInBag(product)}"
       >
@@ -24,6 +24,8 @@
 </template>
 
 <script>
+import { mapState } from 'vuex'
+
 
 export default {
   name: 'Home',
@@ -41,22 +43,14 @@ export default {
 
     isInBag(product){
       return this.productsInBag.find( item => item.id == product.id)
-    },
-
-    // removeFromBag(productId){
-
-    // }
+    }
   },
 
-  computed : {
-    loadProducts(){
-      return this.$store.state.products
-    },
+  computed : mapState([
+    "products",
+    "productsInBag"
+])
 
-    productsInBag(){
-      return this.$store.state.productsInBag
-    }
-  }
 }
 </script>
 

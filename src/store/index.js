@@ -14,7 +14,15 @@ export default createStore({
     addToBag(state, product) {
       state.productsInBag.push(product);
     },
+
+    removeFromBag(state, productId) {
+      let updatedBag = this.state.productsInBag.filter(
+        (item) => productId != item.id
+      );
+      this.state.productsInBag = updatedBag;
+    },
   },
+
   actions: {
     loadProducts({ commit }) {
       axios.get("https://fakestoreapi.com/products").then((response) => {
@@ -24,6 +32,10 @@ export default createStore({
 
     addToBag({ commit }, product) {
       commit("addToBag", product);
+    },
+
+    removeFromBag({ commit }, productId) {
+      commit("removeFromBag", productId);
     },
   },
   modules: {},
